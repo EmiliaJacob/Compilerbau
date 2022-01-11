@@ -1,0 +1,17 @@
+[
+	["nop",0],
+	["read",0],
+	["call",9],
+	["write",0],
+	["read",0],
+	["call",9],
+	["write",0],
+	["return",0],
+	["nop",0],
+	["dup",0],
+	["loadc",0],
+	["cmpge",0],
+	["jumpnz",14],
+	["chs",0],
+	["return",0]
+]

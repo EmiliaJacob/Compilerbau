@@ -1,0 +1,13 @@
+[
+	["read",0],
+	["storer",0],
+	["loadr",0],
+	["loadc",0],
+	["cmplt",0],
+	["jumpz",9],
+	["loadr",0],
+	["chs",0],
+	["storer",0],
+	["loadr",0],
+	["write",0]
+]
