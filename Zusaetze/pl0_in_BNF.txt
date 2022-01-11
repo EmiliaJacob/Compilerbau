@@ -1,0 +1,28 @@
+<program>		::= <block> .
+<block>		    ::= <const-dec> <var-dec> <proc-dec> <statement>
+<const-dec>	    ::= CONST <const-list> ; | e
+<const-list>	::= <ident> = <number> | <const-list> , <ident> = <number>
+<var-dec>		::= VAR <var-list> ; | e
+<var-list>		::= <ident> | <var-list> , <ident> 
+<proc-dec>		::= PROCEDURE <ident> ; <block> ; <proc-dec> | e
+<statement>	    ::= <ident> := <expression> 
+				| CALL <ident>
+				| ? <ident>
+				| ! <expression>
+				| BEGIN <statement-list> END
+				| IF <condition> THEN <statement>
+				| WHILE <condition> DO <statement>
+				| DEBUG
+				| e
+<statement-list>::= <statement> | <statement-list> ; <statement>
+<condition>	    ::= ODD <expression> | <expression> <operator> <expression>
+<operator>		::= # | = | < | <= | > | >=
+<expression> 	::= <term> | <add-sub-sign> <term> | <expression> <add-sub-sign> term>
+<add-sub-sign>	::= + | -
+<term>		    ::= <factor> | <term> <mult-div-sign> <factor>
+<mult-div-sign>	::= * | /
+<factor>		::= <ident> | <number> | ( <expression> )
+
+
+e = epsilon
+<ident> & <number> represents identifiers and numbers

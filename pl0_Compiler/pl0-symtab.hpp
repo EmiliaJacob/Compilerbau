@@ -17,10 +17,8 @@ class symtab {
 		symtab ();
 		void level_up();
 		void level_down();
-		int insert(const string name, const int typ,
-			const int value);
-		int lookup(string name, int type, int & l,
-			int & value);
+		int insert(const string name, const int typ, const int value);
+		int lookup(string name, int type, int & l, int & value);
 		void print();
 	private:
 		vector< map<string,symtab_entry> > content;

@@ -4,9 +4,6 @@
 #include <iostream>
 using namespace std;
 
-
-
-
 symtab_entry::symtab_entry(const int type_,
 	const int val_) {
 	type = type_, val = val_;
@@ -14,7 +11,6 @@ symtab_entry::symtab_entry(const int type_,
 
 symtab::symtab () {
 }
-
 
 void symtab::level_up() {
 	cout << "Symtab-level-up\n";
@@ -29,53 +25,39 @@ void symtab::level_down() {
 	content.pop_back();
 }
 
-
-
-
-
-
-
-
-
-int symtab::insert(const string name,
-	const int typ, const int value){
+int symtab::insert(const string name, const int typ, const int value){
 	int level = content.size() - 1, r = -1;
 
 	if (content[level].find(name) == content[level].end()) {
 		content[level][name] = symtab_entry(typ, value);
 		cout << "Symtab-insert '" << name << "' :" <<
 			content[level][name].type <<
-			 "value: " << value << endl;
+			 ", value: " << value << endl;
 		r = 0;
 	}
 	return r;
 }
 
-
-
-
-
-
-
-int symtab::lookup(string name, int type, int & l,
-	int & value) {
+int symtab::lookup(string name, int type, int & l, int & value) {
 	int level = content.size() - 1;
 	int i = level+1, rc = 0;
-	cout << "Symtab-lookup '" << name <<
-		"' (Typ " << type << ")" << endl;
+	cout << "Symtab-lookup '" << name << "' (Typ " << type << ")" << endl;
 	l = -1;
 	while (--i >= 0 && content[i].find(name) == content[i].end());
 	if (i >= 0)
 		if (content[i][name].type & type)
 			l = level - i,
 				value = content[i][name].val;
-		else
+		else {
 			rc = -1; // Falscher Typ
-	else
+			cerr << ">>> Falscher Typ!" << endl;
+		}
+	else {
 		rc = -2; // Nicht gefunden
+		cerr << ">>> Nicht gefunden!" << endl;
+	}
 	return rc;
 }
-
 
 void symtab::print(){
 	int level = content.size() - 1;
