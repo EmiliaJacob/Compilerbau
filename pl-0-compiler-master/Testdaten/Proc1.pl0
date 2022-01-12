@@ -1,0 +1,8 @@
+procedure f;
+    call f;
+
+
+begin
+    call f;
+    debug;
+end.

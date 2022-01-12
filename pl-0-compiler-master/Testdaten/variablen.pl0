@@ -1,0 +1,12 @@
+VAR a, b, c, d;
+BEGIN
+    a := 44;
+    b := 55;
+    c := 66;
+    d := 77;
+    !a;
+    !b;
+    !c;
+    !d;
+    debug;
+END.

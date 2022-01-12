@@ -1,0 +1,9 @@
+const a=1;
+var b, c, d;
+BEGIN
+    b := 2;
+    ! a+b*3;
+    c := 1;
+    d := 2;
+    ! c + d;
+END.

@@ -1,0 +1,17 @@
+[
+	["nop",0],
+	["loadc",0],
+	["storer",0],
+	["loadr",0],
+	["loadc",5],
+	["cmplt",0],
+	["jumpz",14],
+	["loadr",0],
+	["write",0],
+	["loadr",0],
+	["loadc",1],
+	["add",0],
+	["storer",0],
+	["jump",3],
+	["nop",0]
+]

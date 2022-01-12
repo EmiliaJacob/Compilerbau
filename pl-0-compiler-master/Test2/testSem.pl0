@@ -1,0 +1,8 @@
+VAR a;
+PROCEDURE proc;
+    VAR a;
+    BEGIN
+        a :=  1 + 1;
+        ! a;
+    END;
+    .

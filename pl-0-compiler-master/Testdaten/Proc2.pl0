@@ -1,0 +1,13 @@
+procedure f;
+    ! 1;
+procedure g;
+    procedure h;
+        call g;
+    procedure i;
+        call h;
+    ! 2;
+
+begin
+    call g;
+    Debug;
+end.

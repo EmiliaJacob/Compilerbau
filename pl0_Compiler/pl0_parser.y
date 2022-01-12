@@ -1,12 +1,38 @@
-%token t_const         t_var            t_procedure     t_call          t_begin         
-        t_end           t_if            t_then          t_while         t_do            
-        t_odd           t_q_mark        t_e_mark        t_dot           t_equal         
-        t_comma         t_semicolon     t_assignment    t_hashtag       t_lt            
-        t_lte           t_gt            t_gte           t_plus          t_minus         
-        t_mult          t_div           t_open_brack    t_close_brack   t_error
-        t_debug
+%token CONST "CONST"
+       VAR        "VAR"    
+       PROCEDURE     "PROCEDURE"
+       CALL          "CALL"
+       BEGIN "BEGIN"         
+       END "END"   
+       IF     "IF"       
+       THEN     "THEN"     
+       WHILE        "WHILE" 
+       DO            "DO"
+       ODD           "ODD"
+       Q_MARK       "?" 
+       E_MARK        "!"
+       DOT           "."
+       EQUAL         "="
+       COMMA         ","
+       SEMICOLON     ";"
+       ASSIGNMENT    ":="
+       HASHTAG       "#"
+       LT            "<"
+       LTE           "<="
+       GT           ">"
+       GTE           ">="
+       PLUS          "+"
+       MINUS         "-"
+       MULT          "*"
+       DIV          "/" 
+       OPEN_BRACKET    "("
+       CLOSE_BRACKET   ")"
+       ERROR "ERROR"
+       DEBUG "DEBUG"
+
 %union {char txt[20];}
-%token<txt> t_ident t_number
+
+%token<txt> IDENTIFIER INTEGER
 %{
     void yyerror(const char *t);
     #include "lex.yy.hpp"
@@ -15,8 +41,9 @@
     symtab st;
     int procNr = 0, varCount = 0;
 %}
+
 %%
-program:        block t_dot
+program:        block "."
                 ;
 
 block:          {
@@ -26,11 +53,11 @@ block:          {
                 {st.level_down();}
                 ;
 
-constDec:       t_const constList t_semicolon 
+constDec:       "CONST" constList ";" 
                 | /* epsilon */
                 ;
 
-constList:      t_ident t_equal t_number 
+constList:      IDENTIFIER "=" INTEGER 
                 {
                     varCount++;
                     int returnValue = st.insert($1, st_const, varCount);
@@ -39,7 +66,7 @@ constList:      t_ident t_equal t_number
                     returnValue = st.lookup($1, st_const, stl, varNr);
                     if (returnValue != 0) return 1;
                 }
-                | constList t_comma t_ident t_equal t_number
+                | constList "," IDENTIFIER "=" INTEGER
                 {
                     varCount++;
                     int returnValue = st.insert($3, st_const, varCount);
@@ -50,17 +77,17 @@ constList:      t_ident t_equal t_number
                 }
                 ;
 
-varDec:         t_var varList t_semicolon
+varDec:         "VAR" varList ";"
                 | /* epsilon */
                 ;
 
-varList:        t_ident
+varList:        IDENTIFIER
                 {
                     varCount++;
                     int returnValue = st.insert($1, st_var, varCount);
                     if (returnValue != 0) return 1;
                 }
-                | varList t_comma t_ident
+                | varList "," IDENTIFIER
                 {
                     varCount++;
                     int returnValue = st.insert($3, st_var, varCount);
@@ -68,56 +95,56 @@ varList:        t_ident
                 }
                 ;
 
-procDec:        t_procedure t_ident 
+procDec:        "PROCEDURE" IDENTIFIER 
                 {
                     procNr++;
                     int returnValue = st.insert($2, st_proc, procNr);
                     if (returnValue != 0) return 1;
                 }
-                t_semicolon block t_semicolon procDec
+                ";" block ";" procDec
                 | /* epsilon */
                 ;
 
-statement:      t_ident t_assignment expression
+statement:      IDENTIFIER ":=" expression
                 {
                     int stl, varNr;
                     int returnValue = st.lookup($1, st_var, stl, varNr);
                     if (returnValue != 0) return 1;
                 }
-                | t_call t_ident
+                | "CALL" IDENTIFIER
                 {
                     int stl, varNr;
                     int returnValue = st.lookup($2, st_proc, stl, varNr);
                     if (returnValue != 0) return 1;
                 }
-                | t_q_mark t_ident
+                | "?" IDENTIFIER
                 {
                     int stl, varNr;
                     int returnValue = st.lookup($2, st_var, stl, varNr);
                     if (returnValue != 0) return 1;
                 }
-                | t_e_mark expression
-                | t_begin statementList t_end
-                | t_if condition t_then statement
-                | t_while condition t_do statement
-                | t_debug
+                | "!" expression
+                | "BEGIN" statementList "END"
+                | "IF" condition "THEN" statement
+                | "WHILE" condition "DO" statement
+                | "DEBUG"
                 | /* epsilon */
                 ;
 
 statementList:  statement
-                | statementList t_semicolon statement
+                | statementList ";" statement
                 ;
 
-condition:      t_odd expression
+condition:      "ODD" expression
                 | expression operator expression
                 ;
 
-operator:       t_hashtag 
-                | t_equal 
-                | t_lt 
-                | t_lte 
-                | t_gt 
-                | t_gte
+operator:       "#" 
+                | "=" 
+                | "<" 
+                | "<=" 
+                | ">" 
+                | ">="
                 ;
 
 expression:     term
@@ -125,25 +152,25 @@ expression:     term
                 | expression addSubSign term
                 ;
 
-addSubSign:     t_plus
-                | t_minus
+addSubSign:     "+"
+                | "-"
                 ;
 
 term:           factor
                 | term multDivSign factor
                 ;
 
-multDivSign:    t_mult
-                | t_div
+multDivSign:    "*"
+                | "/"
                 ;
 
-factor:         t_ident
+factor:         IDENTIFIER
                 {
                     int stl, varNr;
                     int returnValue = st.lookup($1, st_var|st_const, stl, varNr);
                     if (returnValue != 0) return 1;
                 }
-                | t_number
-                | t_open_brack expression t_close_brack
+                | INTEGER
+                | "(" expression ")"
                 ;
 %%
