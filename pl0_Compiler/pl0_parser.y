@@ -1,14 +1,14 @@
-%token CONST "CONST"
-       VAR        "VAR"    
-       PROCEDURE     "PROCEDURE"
-       CALL          "CALL"
-       BEGIN "BEGIN"         
-       END "END"   
-       IF     "IF"       
-       THEN     "THEN"     
-       WHILE        "WHILE" 
-       DO            "DO"
-       ODD           "ODD"
+%token CONST 
+       VAR           
+       PROCEDURE     
+       CALL          
+       BEGIN         
+       END    
+       IF 
+       THEN     
+       WHILE   
+       DO       
+       ODD      
        Q_MARK       "?" 
        E_MARK        "!"
        DOT           "."
@@ -27,8 +27,8 @@
        DIV          "/" 
        OPEN_BRACKET    "("
        CLOSE_BRACKET   ")"
-       ERROR "ERROR"
-       DEBUG "DEBUG"
+       ERROR 
+       DEBUG 
 
 %union {char txt[20];}
 
@@ -53,7 +53,7 @@ block:          {
                 {st.level_down();}
                 ;
 
-constDec:       "CONST" constList ";" 
+constDec:       CONST constList ";" 
                 | /* epsilon */
                 ;
 
@@ -77,7 +77,7 @@ constList:      IDENTIFIER "=" INTEGER
                 }
                 ;
 
-varDec:         "VAR" varList ";"
+varDec:         VAR varList ";"
                 | /* epsilon */
                 ;
 
@@ -95,7 +95,7 @@ varList:        IDENTIFIER
                 }
                 ;
 
-procDec:        "PROCEDURE" IDENTIFIER 
+procDec:        PROCEDURE IDENTIFIER 
                 {
                     procNr++;
                     int returnValue = st.insert($2, st_proc, procNr);
@@ -111,7 +111,7 @@ statement:      IDENTIFIER ":=" expression
                     int returnValue = st.lookup($1, st_var, stl, varNr);
                     if (returnValue != 0) return 1;
                 }
-                | "CALL" IDENTIFIER
+                    CALL IDENTIFIER
                 {
                     int stl, varNr;
                     int returnValue = st.lookup($2, st_proc, stl, varNr);
@@ -124,10 +124,10 @@ statement:      IDENTIFIER ":=" expression
                     if (returnValue != 0) return 1;
                 }
                 | "!" expression
-                | "BEGIN" statementList "END"
-                | "IF" condition "THEN" statement
-                | "WHILE" condition "DO" statement
-                | "DEBUG"
+                | BEGIN statementList END
+                | IF condition THEN statement
+                | WHILE condition DO statement
+                | DEBUG
                 | /* epsilon */
                 ;
 
@@ -135,7 +135,7 @@ statementList:  statement
                 | statementList ";" statement
                 ;
 
-condition:      "ODD" expression
+condition:      ODD expression
                 | expression operator expression
                 ;
 
