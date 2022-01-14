@@ -2,9 +2,9 @@ export CPP=g++
 #
 # Makefile zu Pl/0
 #
-pl-0: lex.yy.o y.tab.o pl-0.o symtab.o
+pl-0: lex.yy.o y.tab.o pl-0.o symtab.o tree.o
 	${CPP} -o pl-0 \
-		lex.yy.o y.tab.o pl-0.o symtab.o
+		lex.yy.o y.tab.o pl-0.o symtab.o tree.o
 
 pl-0.o: pl-0.cpp
 	${CPP} -c pl-0.cpp
@@ -19,10 +19,13 @@ y.tab.o: y.tab.cpp
 	${CPP} -c y.tab.cpp
 
 y.tab.cpp: pl0_parser.y
-	yacc -d pl0_parser.y -o y.tab.cpp
+	bison -d pl0_parser.y -o y.tab.cpp
 
 symtab.o: pl0-symtab.cpp pl0-symtab.hpp
 	${CPP} -c pl0-symtab.cpp -o symtab.o
+
+tree.o: pl0_tree.cpp pl0_tree.hpp
+	${CPP} -c pl0_tree.cpp -o tree.o
 
 clean:
 	rm lex.yy.* y.tab.* *.o pl-0

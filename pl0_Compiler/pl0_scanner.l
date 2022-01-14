@@ -1,3 +1,4 @@
+%option caseless
 %{
     #include "y.tab.hpp"
 %}
@@ -6,40 +7,40 @@ ident [A-Za-z][A-Za-z0-9]*
 number [0-9]+
 
 %%
-"CONST"     return t_const;
-"VAR"       return t_var;
-"PROCEDURE" return t_procedure;
-"CALL"      return t_call;
-"BEGIN"     return t_begin;
-"END"       return t_end;
-"IF"        return t_if;
-"THEN"      return t_then;
-"WHILE"     return t_while;
-"DO"        return t_do;
-"ODD"       return t_odd;
-"DEBUG"     return t_debug;
-"?"         return t_q_mark;
-"!"         return t_e_mark;
-"."         return t_dot;
-"="         return t_equal;
-","         return t_comma;
-";"         return t_semicolon;
-":="        return t_assignment;
-"#"         return t_hashtag;
-"<"         return t_lt;
-">"         return t_gt;
-"<="        return t_lte;
-">="        return t_gte;
-"+"         return t_plus;
-"-"         return t_minus;
-"*"         return t_mult;
-"/"         return t_div;
-"("         return t_open_brack;
-")"         return t_close_brack;
-{number}    {strncpy(yylval.txt, yytext, 16); return t_number;}
-{ident}     {strncpy(yylval.txt, yytext, 16); return t_ident;}
+"CONST"     return t_CONST;
+"VAR"       return t_VAR;
+"PROCEDURE" return t_PROCEDURE;
+"CALL"      return t_CALL;
+"BEGIN"     return t_BEGIN;
+"END"       return t_END;
+"IF"        return t_IF;
+"THEN"      return t_THEN;
+"WHILE"     return t_WHILE;
+"DO"        return t_DO;
+"ODD"       return t_ODD;
+"DEBUG"     return t_DEBUG;
+"?"         return t_Q_MARK;
+"!"         return t_E_MARK;
+"."         return t_DOT;
+"="         return t_EQUAL;
+","         return t_COMMA;
+";"         return t_SEMICOLON;
+":="        return t_ASSIGNMENT;
+"#"         return t_N_EQUAL;
+"<"         return t_LT;
+">"         return t_GT;
+"<="        return t_LTE;
+">="        return t_GTE;
+"+"         return t_PLUS;
+"-"         return t_MINUS;
+"*"         return t_MULT;
+"/"         return t_DIV;
+"("         return t_OPEN_BRACK;
+")"         return t_CLOSE_BRACK;
+{number}    {strncpy(yylval.txt, yytext, 16); return t_NUMBER;}
+{ident}     {strncpy(yylval.txt, yytext, 16); return t_IDENT;}
 [ \t\n]     /* do nothing */;
-.           return t_error;
+.           /* do nothing */;
 %%
 int yywrap() {
     return 1;

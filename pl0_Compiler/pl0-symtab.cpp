@@ -4,13 +4,11 @@
 #include <iostream>
 using namespace std;
 
-symtab_entry::symtab_entry(const int type_,
-	const int val_) {
+symtab_entry::symtab_entry(const int type_, const int val_) {
 	type = type_, val = val_;
 }
 
-symtab::symtab () {
-}
+symtab::symtab () {}
 
 void symtab::level_up() {
 	cout << "Symtab-level-up\n";
@@ -30,9 +28,7 @@ int symtab::insert(const string name, const int typ, const int value){
 
 	if (content[level].find(name) == content[level].end()) {
 		content[level][name] = symtab_entry(typ, value);
-		cout << "Symtab-insert '" << name << "' :" <<
-			content[level][name].type <<
-			 ", value: " << value << endl;
+		cout << "Symtab-insert '" << name << "' :" << content[level][name].type << ", value: " << value << endl;
 		r = 0;
 	}
 	return r;
@@ -45,9 +41,10 @@ int symtab::lookup(string name, int type, int & l, int & value) {
 	l = -1;
 	while (--i >= 0 && content[i].find(name) == content[i].end());
 	if (i >= 0)
-		if (content[i][name].type & type)
-			l = level - i,
-				value = content[i][name].val;
+		if (content[i][name].type & type){
+			l = level - i;
+			value = content[i][name].val;
+		}
 		else {
 			rc = -1; // Falscher Typ
 			cerr << ">>> Falscher Typ!" << endl;
@@ -64,14 +61,10 @@ void symtab::print(){
 	map<string,symtab_entry> ::iterator pos;
 	cout << "Akt. Level: "<<  level << endl;
 	for (int i = 0; i <= level; i++) {
-		cout << "Level " << i << ": Hoehe " <<
-			content[i].size() << endl;
+		cout << "Level " << i << ": Hoehe " << content[i].size() << endl;
 		pos = content[i].begin();
-		for(pos = content[i].begin();
-			pos != content[i].end();
-			++pos){
-			cout << "Key: " << (*pos).first <<
-				(*pos).second.type << endl;
+		for (pos = content[i].begin(); pos != content[i].end(); ++pos){
+			cout << "Key: " << (*pos).first << (*pos).second.type << endl;
 		}
 	}
 }
