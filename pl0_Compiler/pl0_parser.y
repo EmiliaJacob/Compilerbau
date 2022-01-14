@@ -10,24 +10,24 @@
        t_DO       
        t_ODD   
        t_DEBUG   
-       t_Q_MARK       "?" 
-       t_E_MARK        "!"
-       t_DOT           "."
-       t_EQUAL         "="
-       t_COMMA         ","
-       t_SEMICOLON     ";"
-       t_ASSIGNMENT    ":="
-       t_N_EQUAL       "#"
-       t_LT            "<"
-       t_LTE           "<="
-       t_GT           ">"
-       t_GTE           ">="
-       t_PLUS          "+"
-       t_MINUS         "-"
-       t_MULT          "*"
-       t_DIV          "/" 
-       t_OPEN_BRACK    "("
-       t_CLOSE_BRACK   ")"
+       t_Q_MARK         "?" 
+       t_E_MARK         "!"
+       t_DOT            "."
+       t_EQUAL          "="
+       t_COMMA          ","
+       t_SEMICOLON      ";"
+       t_ASSIGNMENT     ":="
+       t_N_EQUAL        "#"
+       t_LT             "<"
+       t_LTE            "<="
+       t_GT             ">"
+       t_GTE            ">="
+       t_PLUS           "+"
+       t_MINUS          "-"
+       t_MULT           "*"
+       t_DIV            "/"
+       t_OPEN_BRACK     "("
+       t_CLOSE_BRACK    ")"
 
 %union {char txt[20];}
 
@@ -65,8 +65,7 @@
     tree T;
     optree op;
     symtab st;
-    int procNr = 0, varCount = 0;
-    ast_stmt * old = NULL;
+    int procNr = 1, varCount = 0;
     stack<op_tree*> op_stack;
 %}
 
@@ -137,8 +136,7 @@ varList:        t_IDENT
 
 procDec:        t_PROCEDURE t_IDENT 
                 {
-                    procNr++;
-                    int returnValue = st.insert($2, st_proc, procNr);
+                    int returnValue = st.insert($2, st_proc, procNr++);
                     if (returnValue != 0) return 1;
                     T.new_ast_level($2);
                 }
@@ -154,7 +152,7 @@ statement:      t_IDENT ":=" expression
                     T.new_assign($1, op_stack.top(), stl, varNr);
                     op_stack.pop();
                 }
-                |    t_CALL t_IDENT
+                | t_CALL t_IDENT
                 {
                     int stl, varNr;
                     int returnValue = st.lookup($2, st_proc, stl, varNr);

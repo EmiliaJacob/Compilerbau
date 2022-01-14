@@ -33,10 +33,10 @@ void tree::new_ast_level(string name)
     predecessor = NULL;
 }
 
-void tree::new_assign(string id, op_tree * ex, int stl, int val) 
+void tree::new_assign(string id, op_tree * expr, int stl, int val) 
 {
     ast_stmt * stmt = new_ast_stmt(stmt_assign, "ASSIGN " + id, stl, val);
-    stmt->expr = ex;
+    stmt->expr = expr;
     add_to_ast_list(stmt);
 }
 
