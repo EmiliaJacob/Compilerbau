@@ -15,12 +15,9 @@
 				| DEBUG
 				| e
 <statement-list>::= <statement> | <statement-list> ; <statement>
-<condition>	    ::= ODD <expression> | <expression> <operator> <expression>
-<operator>		::= # | = | < | <= | > | >=
-<expression> 	::= <term> | <add-sub-sign> <term> | <expression> <add-sub-sign> term>
-<add-sub-sign>	::= + | -
-<term>		    ::= <factor> | <term> <mult-div-sign> <factor>
-<mult-div-sign>	::= * | /
+<condition>	    ::= ODD <expression> | <expression> ( # | = | < | <= | > | >= ) <expression>
+<expression> 	::= <term> | - <term> | <expression> ( + | - ) term>
+<term>		    ::= <factor> | <term> ( * | / ) <factor>
 <factor>		::= <ident> | <number> | ( <expression> )
 
 

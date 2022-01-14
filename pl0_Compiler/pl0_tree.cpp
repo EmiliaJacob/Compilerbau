@@ -190,16 +190,10 @@ void tree::print() {
 void tree::postorder (op_tree * node)
 {
     if(node->left != nullptr)
-    {
-        cerr << "      " << node->entry.id << "\n";
         tree::postorder(node->left);
-    }
         
     if(node->right != nullptr) 
-    {
-        cerr << "      " << node->entry.id << "\n";
         tree::postorder(node->right);
-    }
 
     cerr << "      " << node->entry.id << "\n";
 }

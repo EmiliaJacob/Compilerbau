@@ -42,6 +42,26 @@
     #include "pl0-symtab.hpp"
     #include "pl0_tree.hpp"
 
+    void PrintStack(stack<op_tree*> s) {
+        stack<op_tree*> temp;
+        while (s.empty() == false)
+        {
+            temp.push(s.top());
+            s.pop();
+        }  
+    
+        while (temp.empty() == false)
+        {
+            op_tree * t = temp.top();
+            cout << t->entry.id << " ";
+            temp.pop();
+    
+            // To restore contents of
+            // the original stack.
+            s.push(t); 
+        }
+    }
+
     tree T;
     optree op;
     symtab st;
@@ -190,10 +210,7 @@ condition:      t_ODD expression
                     op_stack.pop();
                     op_stack.push(op.new_op_tree(op.new_ast_expr(t_ODD, "ODD"), dummy));
                 }
-                | expression operator expression
-                ;
-
-operator:       "#" 
+                | expression "#" expression
                 {
                     op_tree * dummyR = op_stack.top();
                     op_stack.pop();
@@ -201,7 +218,7 @@ operator:       "#"
                     op_stack.pop();
                     op_stack.push(op.new_op_tree(op.new_ast_expr(t_N_EQUAL, "NOT_EQUAL"), dummyL, dummyR));
                 }
-                | "=" 
+                | expression "=" expression
                 {
                     op_tree * dummyR = op_stack.top();
                     op_stack.pop();
@@ -209,7 +226,7 @@ operator:       "#"
                     op_stack.pop();
                     op_stack.push(op.new_op_tree(op.new_ast_expr(t_EQUAL, "EQUAL"), dummyL, dummyR));
                 }
-                | "<" 
+                | expression "<" expression
                 {
                     op_tree * dummyR = op_stack.top();
                     op_stack.pop();
@@ -217,7 +234,7 @@ operator:       "#"
                     op_stack.pop();
                     op_stack.push(op.new_op_tree(op.new_ast_expr(t_LT, "LESS_THEN"), dummyL, dummyR));
                 }
-                | "<=" 
+                | expression "<=" expression
                 {
                     op_tree * dummyR = op_stack.top();
                     op_stack.pop();
@@ -225,7 +242,7 @@ operator:       "#"
                     op_stack.pop();
                     op_stack.push(op.new_op_tree(op.new_ast_expr(t_LTE, "LESS_THEN_EQUAL"), dummyL, dummyR));
                 }
-                | ">" 
+                | expression ">" expression
                 {
                     op_tree * dummyR = op_stack.top();
                     op_stack.pop();
@@ -233,7 +250,7 @@ operator:       "#"
                     op_stack.pop();
                     op_stack.push(op.new_op_tree(op.new_ast_expr(t_GT, "GREATER_THEN"), dummyL, dummyR));
                 }
-                | ">="
+                | expression ">=" expression
                 {
                     op_tree * dummyR = op_stack.top();
                     op_stack.pop();
@@ -250,10 +267,7 @@ expression:     term
                     op_stack.pop();
                     op_stack.push(op.new_op_tree(op.new_ast_expr(t_MINUS, "CHS"), dummy));
                 }
-                | expression addSubSign term
-                ;
-
-addSubSign:     "+"
+                | expression "+" term
                 {
                     op_tree * dummyR = op_stack.top();
                     op_stack.pop();
@@ -261,7 +275,7 @@ addSubSign:     "+"
                     op_stack.pop();
                     op_stack.push(op.new_op_tree(op.new_ast_expr(t_PLUS, "PLUS"), dummyL, dummyR));
                 }
-                | "-"
+                | expression "-" term
                 {
                     op_tree * dummyR = op_stack.top();
                     op_stack.pop();
@@ -272,10 +286,7 @@ addSubSign:     "+"
                 ;
 
 term:           factor
-                | term multDivSign factor
-                ;
-
-multDivSign:    "*"
+                | term "*" factor
                 {
                     op_tree * dummyR = op_stack.top();
                     op_stack.pop();
@@ -283,7 +294,7 @@ multDivSign:    "*"
                     op_stack.pop();
                     op_stack.push(op.new_op_tree(op.new_ast_expr(t_MULT, "MULT"), dummyL, dummyR));
                 }
-                | "/"
+                | term "/" factor
                 {
                     op_tree * dummyR = op_stack.top();
                     op_stack.pop();
@@ -292,7 +303,6 @@ multDivSign:    "*"
                     op_stack.push(op.new_op_tree(op.new_ast_expr(t_DIV, "DIV"), dummyL, dummyR));
                 }
                 ;
-
 factor:         t_IDENT
                 {
                     int stl, varNr;
