@@ -42,7 +42,7 @@
     #include "pl0-symtab.hpp"
     #include "pl0_tree.hpp"
 
-    void PrintStack(stack<op_tree*> s) {
+    void print_stack(stack<op_tree*> s) {
         stack<op_tree*> temp;
         while (s.empty() == false)
         {
@@ -71,7 +71,7 @@
 
 %%
 program:        {
-                    T.new_ast_level("root");
+                    T.new_ast_level("main");
                 }
                 block "."
                 {

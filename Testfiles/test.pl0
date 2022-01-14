@@ -1,0 +1,5 @@
+CONST a = 1;
+BEGIN
+    ! a+2;
+    DEBUG
+END.

@@ -1,0 +1,10 @@
+VAR a;
+BEGIN
+    a := 0;
+    WHILE a < 5 DO
+    BEGIN
+        ! a;
+        a := a + 1;
+        DEBUG;
+    END
+END.

@@ -12,5 +12,6 @@ BEGIN
       CALL square;
       ! squ;
       x := x + 1
-   END
+   END;
+   DEBUG
 END.

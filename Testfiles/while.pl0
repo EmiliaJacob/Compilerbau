@@ -9,4 +9,4 @@ begin
     end;
     ! a;
     debug;
-end;
+end.
