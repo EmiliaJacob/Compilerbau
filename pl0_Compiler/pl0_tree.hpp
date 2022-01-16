@@ -64,7 +64,7 @@ class tree
         vector<ast_entry> get_ast_list();
         void print();
         void print_op(ast_stmt * dummy);
-        void postorder (op_tree * node);
+        void postorder(op_tree * node);
 };
 
 class optree 

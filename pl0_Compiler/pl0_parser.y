@@ -39,8 +39,8 @@
     #include <string>
     #include <stack>
     #include "lex.yy.hpp"
-    #include "pl0-symtab.hpp"
-    #include "pl0_tree.hpp"
+    #include "pl0_symtab.hpp"
+    #include "pl0_codegeneration.hpp"
 
     void print_stack(stack<op_tree*> s) {
         stack<op_tree*> temp;
@@ -65,6 +65,7 @@
     tree T;
     optree op;
     symtab st;
+    codegeneration c;
     int procNr = 1, varCount = 0;
     stack<op_tree*> op_stack;
 %}
@@ -75,7 +76,8 @@ program:        {
                 }
                 block "."
                 {
-                    //
+                    vector<ast_entry> ast = T.get_ast_list();
+                    c.generate(ast);
                 }
                 ;
 

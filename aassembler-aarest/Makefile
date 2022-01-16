@@ -1,5 +1,5 @@
-CC=clang
-CCPP=clang++
+CC=gcc
+CCPP=g++
 all:	aassembler aarest-console
 
 aassembler:	aassembler.l opcodes.h

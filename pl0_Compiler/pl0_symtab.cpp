@@ -1,4 +1,4 @@
-#include "pl0-symtab.hpp"
+#include "pl0_symtab.hpp"
 #include <map>
 #include <string>
 #include <iostream>
