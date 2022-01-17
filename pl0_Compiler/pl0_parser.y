@@ -43,6 +43,7 @@
     #include "pl0_codegeneration.hpp"
 
     void print_stack(stack<op_tree*> s) {
+        std::cerr << "----- OP_STACK ------\n"; 
         stack<op_tree*> temp;
         while (s.empty() == false)
         {
@@ -60,6 +61,7 @@
             // the original stack.
             s.push(t); 
         }
+        std::cerr << "\n";
     }
 
     tree T;

@@ -13,23 +13,28 @@ void codegeneration::generate(vector<ast_entry> _ast)
     ast = _ast;
     int astSize = ast.size();
 
+    // go through every function ast
     for (int i = 0; i < astSize; i++) 
     {
+        // check if ast is not empty
         if (ast[i].start != nullptr) 
         {
             ast_stmt * stmt = ast[i].start;
 
+            // for every ast besides main
             if (i > 0) 
             {
                 of << "\n";
                 emit(to_string(i), "nop", "", "# " + ast[i].name);
             }
+            // for main
             else
             {
                 emit("", "loadc", "0");
                 emit("", "dup");
                 emit("", "storer", "0");
             }
+            // load how many var in function als call RAM_UP
             emit("", "loadc", to_string(ast[i].n_var));
             emit("", "call", "RAM_UP");
 
@@ -41,6 +46,7 @@ void codegeneration::generate(vector<ast_entry> _ast)
             
             while(go_on) 
             {
+                // go through every statement of ast
                 aassemble_stmt(stmt);
                 if (stmt->next->type != stmt_end) 
                     stmt = stmt->next;
@@ -71,7 +77,7 @@ void codegeneration::aassemble_stmt(ast_stmt * _stmt)
     {
         case stmt_assign:
             aassemble_expr(stmt->expr);
-            ram_var_adr(stmt->stl, stmt->val);
+            ram_var_adr(stmt->id, stmt->stl, stmt->val);
             emit("", "stores");
             break;
         case stmt_call:
@@ -82,7 +88,7 @@ void codegeneration::aassemble_stmt(ast_stmt * _stmt)
             break;
         case stmt_read:
             emit("", "read");
-            ram_var_adr(stmt->stl, stmt->val);
+            ram_var_adr(stmt->id, stmt->stl, stmt->val);
             emit("", "stores");
             break;
         case stmt_write:
@@ -157,45 +163,61 @@ void codegeneration::expr_postorder(op_tree * op)
         emit("", "loadc", to_string(op->entry.val));
         break;
     case t_IDENT:
-        ram_var_adr(op->entry.stl, op->entry.val);
+        ram_var_adr(op->entry.id, op->entry.stl, op->entry.val);
         emit("", "loads");
         break;
     }
 }
 
-void codegeneration::ram_var_adr(int stl, int val)
+void codegeneration::ram_var_adr(string id, int stl, int val)
 {
-    string comment = "# adr of " + to_string(stl) + "|" + to_string(val);
+    string comment = "# adr var " + id + ": sym " + to_string(stl) + "|" + to_string(val);
     emit("", "loadr", "0", comment);
-    for (int i = 0; i < stl; i++)
+    
+    for (int i = 0; i < stl; i++)   // load register on stack if stl > 0
         emit("", "loads");
-    emit("", "dec", "2");
-    emit("", "dec", to_string(val));
+    
+    emit("", "loadc", "2");         // go down for DL and SL   
+    emit("", "sub");
+    //emit("", "dec", "2");
+    if (val > 0) 
+    {
+        emit("", "loadc", to_string(val));  // go down for val
+        emit("", "sub");
+        //emit("", "dec", to_string(val));
+    }
+    
 }
 
 void codegeneration::ram_up()
 {
-    emit("RAM_UP", "loadr", "0");   
+    emit("RAM_UP", "loadr", "0");   // load register in TOS
+    emit("", "add");                // add var count of fuction
+    emit("", "loadc", "2");         // add DL and SL
     emit("", "add");
-    emit("", "inc", "2");
-    emit("", "dup");
-    emit("", "dec", "1");
-    emit("", "loadr", "0");
+    //emit("", "inc", "2");
+    emit("", "dup");                // dup to have register for DL and SL
+    emit("", "loadc", "1");         // one down for DL
+    emit("", "sub");
+    //emit("", "dec", "1");
+    emit("", "loadr", "0");         // load TOS
     emit("", "swap");
-    emit("", "stores");
+    emit("", "stores");             // store TOS in DL
     emit("", "dup");
-    emit("", "storer", "0");
-    emit("", "stores");
+    emit("", "storer", "0");        // store SL in TOS
+    emit("", "stores");             // store old TOS in SL
     emit("", "return");
     of << "\n";
 }
 
 void codegeneration::ram_down()
 {
-    emit("RAM_DOWN", "loadr", "0");
-    emit("", "dec", "1");
-    emit("", "loads");
-    emit("", "storer", "0");
+    emit("RAM_DOWN", "loadr", "0"); // load TOS
+    emit("", "loadc", "1");
+    emit("", "sub");
+    //emit("", "dec", "1");
+    emit("", "loads");              // load DL
+    emit("", "storer", "0");        // store DL in TOS
     emit("", "return");
     of << "\n";
 }

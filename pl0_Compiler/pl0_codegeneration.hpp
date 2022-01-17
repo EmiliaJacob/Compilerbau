@@ -23,6 +23,6 @@ class codegeneration
         void expr_postorder(op_tree * op);
         void ram_up();
         void ram_down();
-        void ram_var_adr(int stl, int val);
+        void ram_var_adr(string id, int stl, int val);
         void emit(string _nr, string cmd, string arg = "", string comment = "");
 };
