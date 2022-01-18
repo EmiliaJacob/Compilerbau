@@ -1,4 +1,3 @@
-export CPP=g++
 #
 # Makefile zu Pl/0
 #
