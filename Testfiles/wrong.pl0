@@ -1,0 +1,12 @@
+var a, b, c;
+begin
+    a := 0;
+    b := -1;
+    while b < 0 do
+    begin
+        ? b;
+        a := a + 1;
+    end;
+    ! a;
+    debug;
+end.

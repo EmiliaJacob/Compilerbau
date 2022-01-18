@@ -8,7 +8,10 @@ extern std::string file;
 
 int main (int argc, char * argv []) {
     if (argc != 2) {
-        std::cerr << "Keine Eingabedatei!\n";
+        if (argc == 1)
+            std::cerr << "Keine Eingabedatei!\n";
+        else if (argc > 2)
+            std::cerr << "Zu viele Eingabedateien!\n";
         return 1;
     }
 
@@ -34,5 +37,5 @@ int main (int argc, char * argv []) {
 
 int yyerror(const char *s) {
      std::cerr << s << "\n";
-     return 0;
+     return 1;
 }
