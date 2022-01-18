@@ -1,6 +1,0 @@
-const a=1;
-var b;
-begin
-    b := 2;
-    ! a+b*3
-end.
