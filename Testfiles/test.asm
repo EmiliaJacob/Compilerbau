@@ -1,13 +1,19 @@
 	loadc	0	
 	dup		
 	storer	0	
-	loadc	0	
+	loadc	1	
 	call	RAM_UP	
-	loadc	3	
+	loadc	1	
+	loadr	0	# adr var ASSIGN a: sym 0|0
 	loadc	2	
 	sub		
-	loadc	1	
+	stores		
+	loadr	0	# adr var ID a: sym 0|0
+	loadc	2	
 	sub		
+	loads		
+	loadc	2	
+	add		
 	write		
 	call	RAM_DOWN	
 	return		

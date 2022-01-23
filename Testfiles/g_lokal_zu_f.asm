@@ -7,8 +7,6 @@
 	loadr	0	# adr var ASSIGN a: sym 0|0
 	loadc	2	
 	sub		
-	loadc	0	
-	sub		
 	stores		
 	loadc	40	
 	loadr	0	# adr var ASSIGN d: sym 0|1
@@ -21,8 +19,6 @@
 	call	1	# CALL f
 	loadr	0	# adr var ID a: sym 0|0
 	loadc	2	
-	sub		
-	loadc	0	
 	sub		
 	loads		
 	write		
@@ -45,14 +41,10 @@
 	loads		
 	loadc	2	
 	sub		
-	loadc	0	
-	sub		
 	stores		
 	loadc	21	
 	loadr	0	# adr var ASSIGN b: sym 0|0
 	loadc	2	
-	sub		
-	loadc	0	
 	sub		
 	stores		
 	loadc	41	
@@ -68,14 +60,10 @@
 	loads		
 	loadc	2	
 	sub		
-	loadc	0	
-	sub		
 	loads		
 	write		
 	loadr	0	# adr var ID b: sym 0|0
 	loadc	2	
-	sub		
-	loadc	0	
 	sub		
 	loads		
 	write		
@@ -99,22 +87,16 @@
 	loads		
 	loadc	2	
 	sub		
-	loadc	0	
-	sub		
 	stores		
 	loadc	22	
 	loadr	0	# adr var ASSIGN b: sym 1|0
 	loads		
 	loadc	2	
 	sub		
-	loadc	0	
-	sub		
 	stores		
 	loadc	32	
 	loadr	0	# adr var ASSIGN c: sym 0|0
 	loadc	2	
-	sub		
-	loadc	0	
 	sub		
 	stores		
 	loadc	42	
@@ -129,22 +111,16 @@
 	loads		
 	loadc	2	
 	sub		
-	loadc	0	
-	sub		
 	loads		
 	write		
 	loadr	0	# adr var ID b: sym 1|0
 	loads		
 	loadc	2	
 	sub		
-	loadc	0	
-	sub		
 	loads		
 	write		
 	loadr	0	# adr var ID c: sym 0|0
 	loadc	2	
-	sub		
-	loadc	0	
 	sub		
 	loads		
 	write		
