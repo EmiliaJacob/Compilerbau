@@ -7,7 +7,9 @@ using namespace std;
 tree::tree() {}
 
 ast_stmt * predecessor = NULL;
-int labelNr = 1000;
+// needed for nops
+int labelNr = 1000;     
+
 
 ast_stmt * tree::new_ast_stmt(int type, string id, int stl, int val, ast_stmt * next, ast_stmt * jump) 
 {
@@ -153,7 +155,7 @@ void tree::print() {
 
             ast_stmt * stmt = ast_list[i].start;
 
-            cerr << ">> Node: " << stmt->id << "\n";
+            cerr << ">>> Node: " << stmt->id << "\n";
             if (stmt->jump != nullptr)
                 cerr << "   >> JUMP TO " << stmt->jump->id;
             if (stmt->expr != nullptr)
@@ -169,7 +171,7 @@ void tree::print() {
             while (stmt->next != nullptr)
             {
                 stmt = stmt->next;
-                cerr << "--> Node: " << stmt->id << "\n"; 
+                cerr << ">>> Node: " << stmt->id << "\n"; 
                 if (stmt->jump != nullptr){
                     cerr << "   >> JUMP TO " << stmt->jump->id;
                 }

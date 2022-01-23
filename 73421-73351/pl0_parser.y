@@ -42,28 +42,6 @@
     #include "pl0_symtab.hpp"
     #include "pl0_codegeneration.hpp"
 
-    void print_stack(stack<op_tree*> s) {
-        std::cerr << "----- OP_STACK ------\n"; 
-        stack<op_tree*> temp;
-        while (s.empty() == false)
-        {
-            temp.push(s.top());
-            s.pop();
-        }  
-    
-        while (temp.empty() == false)
-        {
-            op_tree * t = temp.top();
-            cout << t->entry.id << " ";
-            temp.pop();
-    
-            // To restore contents of
-            // the original stack.
-            s.push(t); 
-        }
-        std::cerr << "\n";
-    }
-
     tree T;
     optree op;
     symtab st;
@@ -208,101 +186,101 @@ statementList:  statement
 
 condition:      t_ODD expression
                 {
-                    op_tree * dummy = op_stack.top();
+                    op_tree * tos = op_stack.top();
                     op_stack.pop();
-                    op_stack.push(op.new_op_tree(op.new_ast_expr(t_ODD, "ODD"), dummy));
+                    op_stack.push(op.new_op_tree(op.new_ast_expr(t_ODD, "ODD"), tos));
                 }
                 | expression "#" expression
                 {
-                    op_tree * dummyR = op_stack.top();
+                    op_tree * tosRight = op_stack.top();
                     op_stack.pop();
-                    op_tree * dummyL = op_stack.top();
+                    op_tree * tosLeft = op_stack.top();
                     op_stack.pop();
-                    op_stack.push(op.new_op_tree(op.new_ast_expr(t_N_EQUAL, "NOT_EQUAL"), dummyL, dummyR));
+                    op_stack.push(op.new_op_tree(op.new_ast_expr(t_N_EQUAL, "NOT_EQUAL"), tosLeft, tosRight));
                 }
                 | expression "=" expression
                 {
-                    op_tree * dummyR = op_stack.top();
+                    op_tree * tosRight = op_stack.top();
                     op_stack.pop();
-                    op_tree * dummyL = op_stack.top();
+                    op_tree * tosLeft = op_stack.top();
                     op_stack.pop();
-                    op_stack.push(op.new_op_tree(op.new_ast_expr(t_EQUAL, "EQUAL"), dummyL, dummyR));
+                    op_stack.push(op.new_op_tree(op.new_ast_expr(t_EQUAL, "EQUAL"), tosLeft, tosRight));
                 }
                 | expression "<" expression
                 {
-                    op_tree * dummyR = op_stack.top();
+                    op_tree * tosRight = op_stack.top();
                     op_stack.pop();
-                    op_tree * dummyL = op_stack.top();
+                    op_tree * tosLeft = op_stack.top();
                     op_stack.pop();
-                    op_stack.push(op.new_op_tree(op.new_ast_expr(t_LT, "LESS_THEN"), dummyL, dummyR));
+                    op_stack.push(op.new_op_tree(op.new_ast_expr(t_LT, "LESS_THEN"), tosLeft, tosRight));
                 }
                 | expression "<=" expression
                 {
-                    op_tree * dummyR = op_stack.top();
+                    op_tree * tosRight = op_stack.top();
                     op_stack.pop();
-                    op_tree * dummyL = op_stack.top();
+                    op_tree * tosLeft = op_stack.top();
                     op_stack.pop();
-                    op_stack.push(op.new_op_tree(op.new_ast_expr(t_LTE, "LESS_THEN_EQUAL"), dummyL, dummyR));
+                    op_stack.push(op.new_op_tree(op.new_ast_expr(t_LTE, "LESS_THEN_EQUAL"), tosLeft, tosRight));
                 }
                 | expression ">" expression
                 {
-                    op_tree * dummyR = op_stack.top();
+                    op_tree * tosRight = op_stack.top();
                     op_stack.pop();
-                    op_tree * dummyL = op_stack.top();
+                    op_tree * tosLeft = op_stack.top();
                     op_stack.pop();
-                    op_stack.push(op.new_op_tree(op.new_ast_expr(t_GT, "GREATER_THEN"), dummyL, dummyR));
+                    op_stack.push(op.new_op_tree(op.new_ast_expr(t_GT, "GREATER_THEN"), tosLeft, tosRight));
                 }
                 | expression ">=" expression
                 {
-                    op_tree * dummyR = op_stack.top();
+                    op_tree * tosRight = op_stack.top();
                     op_stack.pop();
-                    op_tree * dummyL = op_stack.top();
+                    op_tree * tosLeft = op_stack.top();
                     op_stack.pop();
-                    op_stack.push(op.new_op_tree(op.new_ast_expr(t_GTE, "GREATE_THEN_EQUAL"), dummyL, dummyR));
+                    op_stack.push(op.new_op_tree(op.new_ast_expr(t_GTE, "GREATE_THEN_EQUAL"), tosLeft, tosRight));
                 }
                 ;
 
 expression:     term
                 | "-" term
                 {
-                    op_tree * dummy = op_stack.top();
+                    op_tree * tos = op_stack.top();
                     op_stack.pop();
-                    op_stack.push(op.new_op_tree(op.new_ast_expr(t_MINUS, "CHS"), dummy));
+                    op_stack.push(op.new_op_tree(op.new_ast_expr(t_MINUS, "CHS"), tos));
                 }
                 | expression "+" term
                 {
-                    op_tree * dummyR = op_stack.top();
+                    op_tree * tosRight = op_stack.top();
                     op_stack.pop();
-                    op_tree * dummyL = op_stack.top();
+                    op_tree * tosLeft = op_stack.top();
                     op_stack.pop();
-                    op_stack.push(op.new_op_tree(op.new_ast_expr(t_PLUS, "PLUS"), dummyL, dummyR));
+                    op_stack.push(op.new_op_tree(op.new_ast_expr(t_PLUS, "PLUS"), tosLeft, tosRight));
                 }
                 | expression "-" term
                 {
-                    op_tree * dummyR = op_stack.top();
+                    op_tree * tosRight = op_stack.top();
                     op_stack.pop();
-                    op_tree * dummyL = op_stack.top();
+                    op_tree * tosLeft = op_stack.top();
                     op_stack.pop();
-                    op_stack.push(op.new_op_tree(op.new_ast_expr(t_MINUS, "MINUS"), dummyL, dummyR));
+                    op_stack.push(op.new_op_tree(op.new_ast_expr(t_MINUS, "MINUS"), tosLeft, tosRight));
                 }
                 ;
 
 term:           factor
                 | term "*" factor
                 {
-                    op_tree * dummyR = op_stack.top();
+                    op_tree * tosRight = op_stack.top();
                     op_stack.pop();
-                    op_tree * dummyL = op_stack.top();
+                    op_tree * tosLeft = op_stack.top();
                     op_stack.pop();
-                    op_stack.push(op.new_op_tree(op.new_ast_expr(t_MULT, "MULT"), dummyL, dummyR));
+                    op_stack.push(op.new_op_tree(op.new_ast_expr(t_MULT, "MULT"), tosLeft, tosRight));
                 }
                 | term "/" factor
                 {
-                    op_tree * dummyR = op_stack.top();
+                    op_tree * tosRight = op_stack.top();
                     op_stack.pop();
-                    op_tree * dummyL = op_stack.top();
+                    op_tree * tosLeft = op_stack.top();
                     op_stack.pop();
-                    op_stack.push(op.new_op_tree(op.new_ast_expr(t_DIV, "DIV"), dummyL, dummyR));
+                    op_stack.push(op.new_op_tree(op.new_ast_expr(t_DIV, "DIV"), tosLeft, tosRight));
                 }
                 ;
 factor:         t_IDENT

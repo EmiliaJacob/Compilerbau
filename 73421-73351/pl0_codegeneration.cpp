@@ -34,7 +34,7 @@ void codegeneration::generate(vector<ast_entry> _ast)
                 emit("", "dup");
                 emit("", "storer", "0");
             }
-            // load how many var in function als call RAM_UP
+            // load how many var in function and call RAM_UP
             emit("", "loadc", to_string(ast[i].n_var));
             emit("", "call", "RAM_UP");
 
