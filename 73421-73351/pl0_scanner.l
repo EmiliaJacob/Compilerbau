@@ -3,7 +3,7 @@
     #include "y.tab.hpp"
 %}
 
-ident [A-Za-z][A-Za-z0-9]*
+ident [A-Za-z_][A-Za-z_0-9]*
 number [0-9]+
 
 %%
